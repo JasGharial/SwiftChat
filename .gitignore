@@ -1,0 +1,9 @@
+.env
+node_modules
+
+dist
+dist-ssr
+*.local
+
+.idea
+.DS_Store

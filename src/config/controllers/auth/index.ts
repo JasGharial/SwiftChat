@@ -24,8 +24,13 @@ export const Create = apiHandler(async (req: Request, res: Response) => {
 
   const token = getSignedToken(newUser);
 
+  res.cookie(`swiftchat-${process.env.NODE_ENV || 'development'}`, token, {
+    maxAge: 86400000,
+    secure: true,
+    sameSite: "none"
+  });
+
   successResponse(res, 201, 'User registered successfully', {
-    token,
     user: {
       id: newUser.id,
       first_name: newUser.first_name,
@@ -38,7 +43,7 @@ export const Create = apiHandler(async (req: Request, res: Response) => {
 export const Login = apiHandler(async (req: Request, res: Response) => {
   const { email, password } = req.body;
 
-  const user = await User.findOne({ where: { email: email } });
+  const user = await User.scope('withPassword').findOne({ where: { email: email } });
 
   if (user) {
     bcrypt.compare(password, user.password, (err, isMatch) => {
@@ -52,25 +57,20 @@ export const Login = apiHandler(async (req: Request, res: Response) => {
       }
 
       const token = getSignedToken(user);
+
+      res.cookie(`swiftchat-${process.env.NODE_ENV || 'development'}`, token, {
+        maxAge: 86400000,
+        secure: true,
+        sameSite: "none"
+      });
+
       return successResponse(res, 200, 'Login successful', {
-        token,
         user: {
           id: user.id,
           first_name: user.first_name,
           email: user.email,
         },
       });
-    });
-
-    const token = getSignedToken(user);
-
-    successResponse(res, 200, 'Login successful', {
-      token,
-      user: {
-        id: user.id,
-        first_name: user.first_name,
-        email: user.email,
-      },
     });
 
   } else {

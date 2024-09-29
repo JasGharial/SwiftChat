@@ -8,7 +8,7 @@ export interface UserAttributes {
   last_name: string;
   email: string;
   password: string;
-  color: string;
+  color: number;
   profile_setup: boolean;
   avatar?: string;
   created_at?: Date;
@@ -33,7 +33,7 @@ export class User extends Model<UserAttributes, UserCreationAttributes> implemen
   public last_name!: string;
   public email!: string;
   public password!: string;
-  public color!: string;
+  public color!: number;
   public profile_setup!: boolean;
   public avatar!: string;
   public created_at!: Date;
@@ -64,7 +64,7 @@ User.init({
     allowNull: false
   },
   color: {
-    type: DataTypes.STRING,
+    type: DataTypes.INTEGER,
     allowNull: true
   },
   profile_setup: {

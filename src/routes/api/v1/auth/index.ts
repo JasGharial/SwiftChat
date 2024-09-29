@@ -2,7 +2,7 @@
 import router, { Router } from "express";
 import { celebrate, Joi, Segments } from "celebrate";
 // Controller Actions
-import { Create, Login, currentUser } from "@/controllers/auth";
+import { Create, Login, currentUser, updateProfile } from "@/controllers/auth";
 // Middlewares
 import { validateJwtToken } from "@/config/middlewares/auth";
 
@@ -27,8 +27,16 @@ authRouter.post("/login", celebrate({
     .required()
     .min(8)
   })
-}), Login)
+}), Login);
 
-authRouter.get("/user-info", validateJwtToken, currentUser)
+authRouter.get("/user-info", validateJwtToken, currentUser);
+
+authRouter.post("/update-profile", validateJwtToken, celebrate({
+  [Segments.BODY]: Joi.object().keys({
+    first_name: Joi.string().required(),
+    last_name: Joi.string().required(),
+    color: Joi.number().required()
+  })
+}), updateProfile);
 
 export default authRouter;

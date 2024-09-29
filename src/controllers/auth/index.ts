@@ -87,3 +87,17 @@ export const currentUser = apiHandler(async (req: Request, res: Response) => {
     return errorResponse(res, 400, "User not found");
   }
 })
+
+export const updateProfile = apiHandler(async (req: Request, res: Response) => {
+  const { userId } = req;
+  const { first_name, last_name, color } = req.body;
+
+  await User.update({
+    first_name: first_name,
+    last_name: last_name,
+    color: color,
+    profile_setup: true
+  },{ where: { id: userId }});
+
+  return successResponse(res, 200, "User updated successfully", {})
+})

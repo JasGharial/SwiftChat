@@ -65,7 +65,8 @@ User.init({
   },
   color: {
     type: DataTypes.INTEGER,
-    allowNull: true
+    allowNull: true,
+    defaultValue: 0
   },
   profile_setup: {
     type: DataTypes.BOOLEAN,
@@ -74,7 +75,8 @@ User.init({
   },
   avatar: {
     type: DataTypes.STRING,
-    allowNull: false
+    allowNull: false,
+    defaultValue: ""
   },
   created_at: {
     type: DataTypes.DATE,

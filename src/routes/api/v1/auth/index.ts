@@ -1,7 +1,10 @@
+// Dependencies
 import router, { Router } from "express";
-import { Create, Login } from "../../../../controllers/auth";
 import { celebrate, Joi, Segments } from "celebrate";
-import apiRoutes from "../../api.route";
+// Controller Actions
+import { Create, Login, currentUser } from "@/controllers/auth";
+// Middlewares
+import { validateJwtToken } from "@/config/middlewares/auth";
 
 const authRouter: Router = router();
 
@@ -25,5 +28,7 @@ authRouter.post("/login", celebrate({
     .min(8)
   })
 }), Login)
+
+authRouter.get("/user-info", validateJwtToken, currentUser)
 
 export default authRouter;

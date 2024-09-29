@@ -9,11 +9,14 @@ import morgan from "morgan";
 // Middlewares & Error Handling
 import { ensureJsonContentType } from "./middlewares/request";
 import { errorHandler } from "./middlewares/handlers/error.handlers";
+import cookieParser from "cookie-parser";
 
 // Routes
-import apiRoutes from "./routes/api/api.route";
+import apiRoutes from "@/routes/api/api.route";
 
 const app = express();
+
+export const cookieName = `swiftchat-${process.env.NODE_ENV || 'development'}`
 
 app.use(cors({
   origin: [process.env.ORIGIN || 'http://localhost:5173'],
@@ -36,6 +39,7 @@ app.use(morgan(':method :url :status :body :response-time ms', {
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
 
 app.use("/api", ensureJsonContentType, apiRoutes);
 
@@ -48,3 +52,11 @@ app.get("/", (req: Request, res: Response) => {
 });
 
 export default app;
+
+// TOOD: Refactor this for beset practices
+// Declarations for Declaration Merging
+declare module "express-serve-static-core" {
+  interface Request {
+    userId: string;
+  }
+}

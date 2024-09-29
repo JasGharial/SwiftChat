@@ -1,4 +1,4 @@
-import { ErrnoException } from "../types/errors/server.errors";
+import { ErrnoException } from "@/types/errors/server.errors";
 
 // Handle Server Port To Run Application
 export const normalizePort = (port_val: string) => {

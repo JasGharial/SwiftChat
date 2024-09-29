@@ -1,5 +1,6 @@
-import app from "./config/application";
-import sequelize from "./config/db/connection";
+import 'module-alias/register';
+import app from "@/config/application";
+import sequelize from "@/config/db/connection";
 import dotenv from "dotenv";
 
 dotenv.config();

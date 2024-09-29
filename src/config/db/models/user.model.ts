@@ -10,6 +10,7 @@ export interface UserAttributes {
   password: string;
   color: string;
   profile_setup: boolean;
+  avatar?: string;
   created_at?: Date;
   updated_at?: Date;
 }
@@ -34,6 +35,7 @@ export class User extends Model<UserAttributes, UserCreationAttributes> implemen
   public password!: string;
   public color!: string;
   public profile_setup!: boolean;
+  public avatar!: string;
   public created_at!: Date;
   public updated_at!: Date;
 }
@@ -70,6 +72,10 @@ User.init({
     allowNull: true,
     defaultValue: false
   },
+  avatar: {
+    type: DataTypes.STRING,
+    allowNull: false
+  },
   created_at: {
     type: DataTypes.DATE,
     allowNull: false,
@@ -82,6 +88,7 @@ User.init({
   }
 }, {
   sequelize,
+  timestamps: false,
   tableName: 'users',
   modelName: 'User',
   hooks: {
